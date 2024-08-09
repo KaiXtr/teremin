@@ -1,0 +1,41 @@
+beautifulsoup4==4.12.3
+certifi==2024.7.4
+charset-normalizer==3.3.2
+docopt==0.6.2
+et-xmlfile==1.1.0
+idna==3.7
+imagecodecs @ file:///work/perseverance-python-buildout/croot/imagecodecs_1698851963060/work
+imageio @ file:///croot/imageio_1707247282708/work
+joblib @ file:///croot/joblib_1718217211762/work
+Js2Py==0.74
+lazy_loader @ file:///croot/lazy_loader_1718176737906/work
+mkl-fft @ file:///work/perseverance-python-buildout/croot/mkl_fft_1698845673361/work
+mkl-random @ file:///work/perseverance-python-buildout/croot/mkl_random_1698845720894/work
+mkl-service==2.4.0
+networkx @ file:///croot/networkx_1720002482208/work
+numpy==1.26.4
+opencv-python==4.10.0
+opencv-python-headless==4.10.0
+openpyxl==3.1.3
+packaging @ file:///croot/packaging_1720101850331/work
+pandas==2.2.2
+pillow @ file:///croot/pillow_1721059439630/work
+pipwin==0.5.2
+PyAudio @ file:///home/conda/feedstock_root/build_artifacts/pyaudio_1699365177463/work
+pyjsparser==2.7.1
+PyPrind==2.11.3
+pySmartDL==1.3.4
+pytz==2024.1
+requests==2.32.3
+scikit-image @ file:///croot/scikit-image_1718285223463/work
+scikit-learn @ file:///croot/scikit-learn_1721921875708/work
+scipy @ file:///croot/scipy_1717521478074/work/dist/scipy-1.13.1-cp312-cp312-linux_x86_64.whl#sha256=a60c1bdf983ee297b25e41830d00cc2af50f00bcb47e55578703fef1594ec56e
+setuptools==72.1.0
+six==1.16.0
+soupsieve==2.5
+threadpoolctl @ file:///croot/threadpoolctl_1719407800858/work
+tifffile @ file:///work/perseverance-python-buildout/croot/tifffile_1698866341575/work
+tzdata==2024.1
+tzlocal==5.2
+urllib3==2.2.2
+wheel==0.43.0
