@@ -1,5 +1,6 @@
 import cv2 as cv
 import numpy as np
+import scipy
 import threading
 import logging
 import pyaudio
@@ -28,12 +29,6 @@ class Teremin:
         self.startFreq:float = 320.0
         self.quantSamples:int = 400
 
-        # for paFloat32 sample values must be in range [-1.0, 1.0]
-        self.stream = self.pyAudio.open(format=pyaudio.paFloat32,
-                        channels=1,
-                        rate=self.fs,
-                        output=True)
-
         self.capturaVideo:cv.VideoCapture = cv.VideoCapture(0)
 
         self.sair:bool = False
@@ -41,9 +36,9 @@ class Teremin:
 
     def gerarSom(self, f:float, d:float) -> bytes:
         # generate samples, note conversion to float32 array
-        samples = (np.sin(
-            2 * np.pi * np.arange(self.fs * d) * f / self.fs)
-            ).astype(np.float32)
+        onda = 2 * np.pi * np.arange(self.fs * d) * f / self.fs
+        samples = (np.sin(onda)).astype(np.float32)
+        #samples = (scipy.signal.sawtooth(onda)).astype(np.float32)
 
         # per @yahweh comment explicitly convert to bytes sequence
         bytesSaida = (self.volume * samples).tobytes()
@@ -54,13 +49,24 @@ class Teremin:
         freq = self.startFreq + proximidade
         sample = self.gerarSom(freq, self.duracao)
         logging.info(f"Proximidade: {proximidade} | {freq}Hz")
+
+        # for paFloat32 sample values must be in range [-1.0, 1.0]
+        self.stream = self.pyAudio.open(format=pyaudio.paFloat32,
+                        channels=1,
+                        rate=self.fs,
+                        output=True)
         self.stream.write(sample)
+        self.stream.stop_stream()
+        self.stream.close()
 
     def main(self):
         while self.sair == False:
             # Carregando imagem em escala de cinza para detecção de Haar-Like
             # feature usando o algoritmo de Viola-Jones
             ret, frame = self.capturaVideo.read()
+            frameX, frameY, frameC = frame.shape
+            frame = cv.flip(frame, 1)
+
             gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
 
             faces = self.faceCascade.detectMultiScale(
@@ -106,8 +112,6 @@ class Teremin:
 
     def __del__(self):
         print(f"FINALIZANDO!")
-        self.stream.stop_stream()
-        self.stream.close()
         self.pyAudio.terminate()
         self.capturaVideo.release()
         cv.destroyAllWindows()
