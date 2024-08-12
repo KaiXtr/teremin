@@ -28,6 +28,12 @@ class Teremin:
         self.faceCascade:cv.CascadeClassifier = cv.CascadeClassifier(classifierXML)
         #faceCascade = cv.CascadeClassifier('haarcascade_smile.xml')
 
+        # FREQUÊNCIAS DE LYNMAN
+        freqLynman = (
+            586.67, 495.05, 469.33, 458.33, 452.48, 449.18, 447.27, 445.76,
+            444.44, 443.85, 443.29, 442.96, 441.76, 441.59, 441.44, 441.16
+        )
+
         # INICIALIZANDO PYAUDIO
         self.pyAudio:pyaudio.PyAudio = pyaudio.PyAudio()
         self.volume:float = 0.5  # range [0.0, 1.0]
