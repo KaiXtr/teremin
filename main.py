@@ -3,6 +3,7 @@ import logging
 
 import cv2 as cv
 import numpy as np
+import scipy
 import pyaudio
 import mediapipe as mp
 import tensorflow as tf
@@ -42,12 +43,6 @@ class Teremin:
         self.startFreq:float = 320.0
         self.quantSamples:int = 400
 
-        # for paFloat32 sample values must be in range [-1.0, 1.0]
-        self.stream = self.pyAudio.open(format=pyaudio.paFloat32,
-                        channels=1,
-                        rate=self.fs,
-                        output=True)
-
         self.capturaVideo:cv.VideoCapture = cv.VideoCapture(0)
 
         # INICIALIZANDO HAND GESTURE
@@ -71,9 +66,9 @@ class Teremin:
 
     def gerarSom(self, f:float, d:float) -> bytes:
         # generate samples, note conversion to float32 array
-        samples = (np.sin(
-            2 * np.pi * np.arange(self.fs * d) * f / self.fs)
-            ).astype(np.float32)
+        onda = 2 * np.pi * np.arange(self.fs * d) * f / self.fs
+        samples = (np.sin(onda)).astype(np.float32)
+        #samples = (scipy.signal.sawtooth(onda)).astype(np.float32)
 
         # per @yahweh comment explicitly convert to bytes sequence
         bytesSaida = (self.volume * samples).tobytes()
@@ -91,9 +86,17 @@ class Teremin:
         sample = self.gerarSom(freq, self.duracao)
         logging.info(f"Proximidade: {proximidade} | {freq}Hz")
         
+        # for paFloat32 sample values must be in range [-1.0, 1.0]
+        self.stream = self.pyAudio.open(format=pyaudio.paFloat32,
+                        channels=1,
+                        rate=self.fs,
+                        output=True)
+
         if self.stream.get_write_available():
             self.stream.write(sample)
-        
+        self.stream.stop_stream()
+        self.stream.close()
+
         return freq
 
     '''def reconhecerMao(self, frame, hands, mpHands, mpDraw, classNames, model):
@@ -127,11 +130,12 @@ class Teremin:
         while self.sair == False:
             # Capturando frame do vídeo da webcam e espelhando
             ret, frame = self.capturaVideo.read()
-            #frameX, frameY, frameC = frame.shape
-            #frame = cv.flip(frame,1)
+            frameX, frameY, frameC = frame.shape
+            frame = cv.flip(frame, 1)
 
             # Carregando imagem em escala de cinza para detecção de Haar-Like
             # feature usando o algoritmo de Viola-Jones
+
             gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
 
             faces = self.faceCascade.detectMultiScale(
@@ -178,8 +182,6 @@ class Teremin:
 
     def __del__(self):
         print(f"FINALIZANDO!")
-        self.stream.stop_stream()
-        self.stream.close()
         self.pyAudio.terminate()
         self.capturaVideo.release()
         cv.destroyAllWindows()
