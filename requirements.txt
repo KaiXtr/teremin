@@ -1,4 +1,5 @@
 absl-py @ file:///home/conda/feedstock_root/build_artifacts/absl-py_1705494584803/work
+altgraph @ file:///home/conda/feedstock_root/build_artifacts/altgraph_1695642967802/work
 astunparse @ file:///home/conda/feedstock_root/build_artifacts/astunparse_1610696312422/work
 attrs==24.2.0
 beautifulsoup4==4.12.3
@@ -58,6 +59,8 @@ protobuf==4.25.3
 PyAudio @ file:///home/conda/feedstock_root/build_artifacts/pyaudio_1699365177463/work
 pycparser @ file:///home/conda/feedstock_root/build_artifacts/pycparser_1711811537435/work
 Pygments @ file:///home/conda/feedstock_root/build_artifacts/pygments_1714846767233/work
+pyinstaller @ file:///home/conda/feedstock_root/build_artifacts/pyinstaller_1723331103876/work
+pyinstaller-hooks-contrib @ file:///home/conda/feedstock_root/build_artifacts/pyinstaller-hooks-contrib_1723275433583/work
 pyjsparser==2.7.1
 pyparsing==3.1.2
 PyPrind==2.11.3
@@ -69,7 +72,7 @@ requests @ file:///home/conda/feedstock_root/build_artifacts/requests_1717057054
 rich @ file:///home/conda/feedstock_root/build_artifacts/rich-split_1709150387247/work/dist
 scikit-image @ file:///croot/scikit-image_1718285223463/work
 scikit-learn @ file:///croot/scikit-learn_1721921875708/work
-scipy @ file:///croot/scipy_1717521478074/work/dist/scipy-1.13.1-cp312-cp312-linux_x86_64.whl#sha256=a60c1bdf983ee297b25e41830d00cc2af50f00bcb47e55578703fef1594ec56e
+scipy @ file:///home/conda/feedstock_root/build_artifacts/scipy-split_1720323012716/work/dist/scipy-1.14.0-cp312-cp312-linux_x86_64.whl#sha256=6b6734654444e3e1050c9f567e3c32f0fdb69d833d146d48adcf3ab505cc0cc4
 setuptools==72.1.0
 six @ file:///home/conda/feedstock_root/build_artifacts/six_1620240208055/work
 sounddevice==0.4.7

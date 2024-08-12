@@ -29,7 +29,7 @@ class Teremin:
         #faceCascade = cv.CascadeClassifier('haarcascade_smile.xml')
 
         # FREQUÊNCIAS DE LYNMAN
-        freqLynman = (
+        self.freqLynman = (
             586.67, 495.05, 469.33, 458.33, 452.48, 449.18, 447.27, 445.76,
             444.44, 443.85, 443.29, 442.96, 441.76, 441.59, 441.44, 441.16
         )
@@ -80,13 +80,21 @@ class Teremin:
 
         return bytesSaida
 
-    def tocarSom(self, proximidade:int):
-        freq = self.startFreq + proximidade
+    def tocarSom(self, proximidade:int) -> float:
+        #freq = self.startFreq + proximidade
+
+        proxMax = 350
+        proximidade = max(0,min(proximidade,proxMax))
+        limite = proxMax/(proximidade + 1)
+        fIndex = np.floor((len(self.freqLynman) - 1)/limite).astype(int)
+        freq = self.freqLynman[fIndex]
         sample = self.gerarSom(freq, self.duracao)
         logging.info(f"Proximidade: {proximidade} | {freq}Hz")
         
         if self.stream.get_write_available():
             self.stream.write(sample)
+        
+        return freq
 
     '''def reconhecerMao(self, frame, hands, mpHands, mpDraw, classNames, model):
         framergb = cv.cvtColor(frame, cv.COLOR_BGR2RGB)
@@ -146,12 +154,12 @@ class Teremin:
                 cv.rectangle(frame, (x, y), (x+w, y+h), rectCor, 2)
 
                 normalizado = max(0,min(w - 100,self.quantSamples - 1))
-                self.tocarSom(normalizado)
+                freqTocada = self.tocarSom(normalizado)
                 #t = threading.Thread(target=self.tocarSom, args=(normalizado,))
                 #t.start()
 
                 cv.putText(frame,
-                           f"{self.startFreq + normalizado}Hz",
+                           f"{freqTocada}Hz",
                            (x, y - 10),
                            cv.FONT_HERSHEY_SIMPLEX,
                            0.5,
