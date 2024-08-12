@@ -181,7 +181,7 @@ class Teremin:
                 self.sair = True
 
     def __del__(self):
-        print(f"FINALIZANDO!")
+        logging.info(f"FINALIZANDO!")
         self.pyAudio.terminate()
         self.capturaVideo.release()
         cv.destroyAllWindows()
